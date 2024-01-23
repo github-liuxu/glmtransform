@@ -46,12 +46,15 @@ GLM_EXPORT CGAffineTransform GLMAffineTransformMakeScaleAnchor(float scale, CGPo
 }
 
 GLM_EXPORT CGAffineTransform GLMAffineTransformScaleAnchor(CGAffineTransform transform, float scale, CGPoint anchor) {
+    // 将左手坐标系转换为右手
+    glm::mat4 scaleMatrixTransform = glm::scale(glm::mat4(1.0f), glm::vec3(1, -1, 1));
     // 将锚点移动到中心点
-    glm::mat4 translateMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(-anchor.x, anchor.y, 0));
+    glm::mat4 translateMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(anchor.x, anchor.y, 0));
     // 以中心点缩放
     glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(scale, scale, 1));
     // 将缩放应用到锚点, 并将锚点移动到原位置
-    glm::mat4 tmat = glm::inverse(translateMatrix) * scaleMatrix * translateMatrix;
+    glm::mat4 tmat = scaleMatrixTransform * translateMatrix * scaleMatrix * glm::inverse(translateMatrix);
+//    glm::mat4 tmat = glm::inverse(translateMatrix) * scaleMatrix * translateMatrix;
     CGAffineTransform tempTransform = convertToCGAffineTransform(tmat);
     /// 将视图应用当前变换
     return CGAffineTransformConcat(transform, tempTransform);

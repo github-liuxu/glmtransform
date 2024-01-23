@@ -21,7 +21,7 @@
     // Do any additional setup after loading the view.
     UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchAction:)];
     pinch.delegate = self;
-//    [self.view addGestureRecognizer:pinch];
+    [self.view addGestureRecognizer:pinch];
     
     UIRotationGestureRecognizer *rotate = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotateAction:)];
     rotate.delegate = self;
@@ -44,15 +44,15 @@
 
 - (void)pinchAction:(UIPinchGestureRecognizer *)pinch {
     float scale = pinch.scale;
-    self.testView.transform = CGAffineTransformScaleAnchor(self.testView.transform, scale, CGPointMake(120, 64));
+    self.testView.transform = CGAffineTransformScaleAnchor(self.testView.transform, scale, CGPointMake(-120, 64));
     pinch.scale = 1;
 }
 
 - (void)rotateAction:(UIRotationGestureRecognizer *)rotation {
     float rotate = rotation.rotation;
     NSLog(@"rotateAction:%f",rotate);
-    self.testView.transform = GLMAffineTransformMakeRotationAnchor(rotate, CGPointMake(120, 64));
-//    rotation.rotation = 0;
+    self.testView.transform = GLMAffineTransformRotationAnchor(self.testView.transform, rotate, CGPointMake(-120, 64));
+    rotation.rotation = 0;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
