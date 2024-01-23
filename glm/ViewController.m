@@ -44,7 +44,7 @@
 
 - (void)pinchAction:(UIPinchGestureRecognizer *)pinch {
     float scale = pinch.scale;
-    self.testView.transform = CGAffineTransformScaleAnchor(self.testView.transform, scale, CGPointMake(-120, 64));
+    self.testView.transform = GLMAffineTransformScaleAnchor(self.testView.transform, scale, CGPointMake(-120, 64));
     pinch.scale = 1;
 }
 
